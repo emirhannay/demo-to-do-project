@@ -1,0 +1,70 @@
+
+ 
+
+
+<div class="alert alert-success">
+    {{ displayCount() }} mission completed.
+</div>
+<ng-template #itemsTable>
+    <table class="table; col-md-12" *ngIf = "getItems().length > 0" >
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Mission</th>
+                <th>Status</th>
+            </tr>
+    
+        </thead>
+        <tbody>
+            <tr *ngFor=" let item of getItems(); let i = index" [class] = "{ 'bg-primary': item.success, 'bg-warning': item.success == false}">
+                <td>{{ i+1 }}</td>
+                <td>{{ item.description }}</td>
+                <td>                     
+                      <div *ngIf="item.success; then yesTemplate else noTemplate">
+                        this messsage is not displayed.
+                    </div> 
+
+                    <ng-template #noTemplate>No</ng-template>
+
+                    <ng-template #yesTemplate>Yes</ng-template>
+
+                </td>
+                <td> <input type="checkbox" (change) = "onActionChanged(item)"[(ngModel)]="item.success" name="" id=""></td>
+            </tr> 
+    
+    
+        </tbody>    
+    </table>
+</ng-template>
+
+<div class="alert alert-danger" role="alert" *ngIf ="getItems().length == 0 else itemsTable">
+    All missions completed.
+  </div>
+ 
+
+
+  <div class="input-group; row">
+    <div class="col-md-8"> 
+    <input  [(ngModel)]="inputText"
+     type="text" 
+    class="form-control; col-md-6" 
+    (keyup.enter) ="addItem(); " 
+    
+    >
+    {{inputText}}
+    <button
+    [class] = "getBtnClasses()"
+     class="btn "
+    (click)="addItem(); " >Add</button>
+    </div>
+    <div class="col-md-2">
+        <div>
+            <input type="checkbox" [(ngModel)]="displayAll" class="form-check-input" name="" id="displayAll"> 
+            <label for="displayAll" class="form-check-label">Show All(T-F)</label>
+        </div>    
+    </div>
+</div>
+
+
+
+  
